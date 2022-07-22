@@ -22,13 +22,8 @@ class LinksNode {
       this.head = node;
       this.tail = node;
     } else {
-      let current = this.head;
-      // 找到最后一个元素
-      while (current.next) {
-        current = current.next;
-      }
-      current.next = node;
-      node.prev = current;
+      this.tail.next = node;
+      node.prev = this.tail;
       this.tail = node;
     }
     // 链表长度+1
@@ -54,7 +49,7 @@ class LinksNode {
         this.head.prev = node;
         this.head = node;
       } else {
-        // 2. 后面的任意位置
+        // 后面的任意位置;
         let current = this.head;
         let index = 0;
         // 找到目标位置和目标位置的前一个元素
@@ -267,8 +262,8 @@ console.log(link.toString());
 // link.removeAt(6);
 
 // remove
-// link.remove(10);
-// link.remove(2);
-// link.remove(5);
+link.remove(10);
+link.remove(2);
+link.remove(5);
 console.log(link.forwardString());
 console.log(link.backwardString());

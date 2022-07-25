@@ -100,34 +100,97 @@ class Tree {
     // 先找到要删除的节点
     let current = this.root
     let parent = null
-    while (current != null) {
+    let isLeft = false
+
+    // 找到要删除的节点
+    while (current.key !== key) {
       // current的父节点
       parent = current
       if (current.key > key) {
         current = current.left
+        isLeft = true
       } else {
         current = current.right
+        isLeft = false
+      }
+      if (current === null) {
+        return false
       }
     }
 
-    // 找到要删除的节点
     if (current) {
       // 如果删除的是叶子结点
-      if ((current.left == null) & (current.right == null)) {
-        current = null
-        return true
+      if (current.left === null && current.right === null) {
+        if (current === this.root) {
+          this.root = null
+        } else if (isLeft) {
+          parent.left = null
+        } else {
+          parent.right = null
+        }
       }
       // 只有右节点是空
       else if (current.right == null) {
-        current = current.left
+        if (current === this.root) {
+          this.root = current.left
+        } else if (isLeft) {
+          parent.left = current.left
+        } else {
+          parent.right = current.left
+        }
       }
       // 只有左节点为空
       else if (current.left == null) {
-        current = current.right
+        if (current === this.root) {
+          this.root = current.right
+        } else if (isLeft) {
+          parent.left = current.right
+        } else {
+          parent.right = current.right
+        }
       }
-    } else {
-      return false
+      // 3、删除的是有两个子节点的节点
+      else {
+        // 找到后驱节点
+        const successor = this.getSuccessor(current)
+
+        // 如果是根节点
+        if (current == this.root) {
+          this.root = successor
+        } else if (isLeft) {
+          parent.left = successor
+        } else {
+          parent.right = successor
+        }
+
+        // 将后续左节点改为被删除的左节点
+        successor.left = current.left
+      }
     }
+  }
+
+  // 获取后继
+  getSuccessor(delNode) {
+    // 保存临时节点
+    let successorParent = delNode
+    let successor = delNode
+    let current = delNode.right
+
+    // 寻找后驱节点（比删除元素大一点点的节点）
+    while (current !== null) {
+      successorParent = successor
+      successor = current
+      // 一直往左边找
+      current = current.left
+    }
+
+    // 如果后续节点不是删除节点的右节点
+    if (successor !== delNode.right) {
+      successorParent.left = successor.right
+      successor.right = delNode.right
+    }
+
+    return successor
   }
 
   // 中序遍历(由小到大)
@@ -216,4 +279,14 @@ console.log("后续序遍历", arr)
 // console.log(tree.min())
 // console.log(tree.max())
 
-console.log(tree.search(20))
+// console.log(tree.search(20))
+
+tree.remove(9)
+tree.remove(7)
+tree.remove(15)
+
+arr = []
+tree.postorderTraversal((key) => {
+  arr.push(key)
+})
+console.log(arr)

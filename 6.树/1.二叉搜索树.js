@@ -76,13 +76,10 @@ class Tree {
     function searchNode(node, key) {
       if (node !== null) {
         if (node.key === key) {
-          console.log("=")
           res = true
         } else if (node.key > key) {
-          console.log(">")
           searchNode(node.left, key)
         } else {
-          console.log("<")
           searchNode(node.right, key)
         }
       } else {
@@ -99,7 +96,39 @@ class Tree {
   }
 
   // 删除
-  remove(key) {}
+  remove(key) {
+    // 先找到要删除的节点
+    let current = this.root
+    let parent = null
+    while (current != null) {
+      // current的父节点
+      parent = current
+      if (current.key > key) {
+        current = current.left
+      } else {
+        current = current.right
+      }
+    }
+
+    // 找到要删除的节点
+    if (current) {
+      // 如果删除的是叶子结点
+      if ((current.left == null) & (current.right == null)) {
+        current = null
+        return true
+      }
+      // 只有右节点是空
+      else if (current.right == null) {
+        current = current.left
+      }
+      // 只有左节点为空
+      else if (current.left == null) {
+        current = current.right
+      }
+    } else {
+      return false
+    }
+  }
 
   // 中序遍历(由小到大)
   inorderTraversal(callback) {

@@ -13,7 +13,9 @@ function insertSort(arr) {
       // 这里为啥不能直接用arr[i]来比较？
       // 因为如果前一个比arr[i]大，那就会把arr[i]替换成arr[i-1]
       if (arr[j] > current) {
+        // 交换
         arr[j + 1] = arr[j]
+        arr[j] = current
       } else {
         arr[j + 1] = current
         break
@@ -23,4 +25,4 @@ function insertSort(arr) {
   return arr
 }
 
-console.log(insertSort([11, 33, 22, 55, 12, 56, 76, 23, 223]))
+console.log(insertSort([11, 33, 22, 55, 12, 56, 76, 223, 23]))

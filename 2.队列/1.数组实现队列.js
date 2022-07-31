@@ -8,7 +8,7 @@ class Queue {
   }
   // 出队列
   dequeue() {
-    this.queue.pop();
+    return this.queue.pop();
   }
   // 查看队列的大小
   size() {
@@ -24,13 +24,16 @@ class Queue {
   }
 }
 
+module.exports =  Queue
+
 const queue = new Queue();
 queue.enqueue(1);
 queue.enqueue(2);
 queue.enqueue(3);
 queue.enqueue(4);
 
-console.log(queue.size());
+// console.log(queue.size());
 queue.dequeue();
-console.log(queue.front());
-console.log(queue.isEmpty());
+// console.log(queue.front());
+// console.log(queue.isEmpty());
+

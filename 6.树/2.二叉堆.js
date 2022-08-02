@@ -1,5 +1,6 @@
 // 最小堆和最大对堆
 // 数组结构存储
+//  最大堆：每个父节点大于子节点
 // 假设父节点的下标是parent，那么它的左孩子下标就是 2*parent+1；它的右孩子下标就是  2*parent+2
 /**
  * 1. 插入节点
@@ -18,14 +19,27 @@
 function upAdjust(array) {
   // 判断最后一个节点是否需要上浮调整
   let childIndex = array.length - 1
-  let parentIndex = (childIndex - 1) / 2
+  let parentIndex
+  if (childIndex % 2 === 0) {
+    // 右子节点
+    parentIndex = (childIndex - 2) / 2
+  } else {
+    // 左子节点
+    parentIndex = (childIndex - 1) / 2
+  }
   const temp = array[childIndex]
 
   while (childIndex > 0 && temp < array[parentIndex]) {
     // 把比子节点大与父节点交换位置
     array[childIndex] = array[parentIndex]
     childIndex = parentIndex
-    parentIndex = (childIndex - 1) / 2
+    if (childIndex % 2 === 0) {
+      // 右子节点
+      parentIndex = (childIndex - 2) / 2
+    } else {
+      // 左子节点
+      parentIndex = (childIndex - 1) / 2
+    }
   }
   // 把最后的元素赋值到正确的位置
   array[childIndex] = temp

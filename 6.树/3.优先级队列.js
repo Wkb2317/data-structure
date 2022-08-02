@@ -15,14 +15,28 @@ class priorityQueue {
     this.queue.push(val)
     // 判断最后一个节点是否需要上浮调整
     let childIndex = this.queue.length - 1
-    let parentIndex = (childIndex - 1) / 2
+    let parentIndex
+    if (childIndex % 2 === 0) {
+      // 右子节点
+      parentIndex = (childIndex - 2) / 2
+    } else {
+      // 左子节点
+      parentIndex = (childIndex - 1) / 2
+    }
+
     const temp = this.queue[childIndex]
 
     while (childIndex > 0 && temp > this.queue[parentIndex]) {
       // 把比子节点小与父节点交换位置
       this.queue[childIndex] = this.queue[parentIndex]
       childIndex = parentIndex
-      parentIndex = (childIndex - 1) / 2
+      if (childIndex % 2 === 0) {
+        // 右子节点
+        parentIndex = (childIndex - 2) / 2
+      } else {
+        // 左子节点
+        parentIndex = (childIndex - 1) / 2
+      }
     }
     // 把最后的元素赋值到正确的位置
     this.queue[childIndex] = temp
@@ -33,12 +47,12 @@ class priorityQueue {
     if (this.queue.length <= 0) {
       return false
     }
-    const val = this.queue.shift()
-    // 出队列后，队列为空
+    const val = this.queue[0]
+    // 出队列后，如果队列为空
     if (this.length !== 0) {
       // 还有子元素
       // 最后一个元素补到头结点
-      this.queue.unshift(this.queue.pop())
+      this.queue[0] = this.queue.pop()
       // 对第一个元素做下浮调整
       this.downAdjustBetter(0)
     }
@@ -60,7 +74,7 @@ class priorityQueue {
       }
       // 不存在右节点
       if (temp >= this.queue[childIndex]) {
-        // 父节点还小于左子节点，则符合二叉堆
+        // 父节点大于左子节点，则符合二叉堆
         break
       }
 
@@ -82,6 +96,8 @@ queue.enqueue(5)
 queue.enqueue(21)
 queue.enqueue(10)
 queue.enqueue(1)
+
+console.log(queue.queue)
 
 console.log(queue.dequeue())
 console.log(queue.dequeue())

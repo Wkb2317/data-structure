@@ -89,16 +89,13 @@ function downAdjust(array, parentIndex) {
 }
 
 // * 下浮优化版本
-function downAdjustBetter(array, parentIndex) {
+function downAdjustBetter(array, parentIndex, length) {
   let temp = array[parentIndex]
   let childIndex = parentIndex * 2 + 1
 
-  while (childIndex < array.length) {
+  while (childIndex < length) {
     // 如果有右孩子，且小于左孩子，则定位到右节点
-    if (
-      childIndex < array.length - 1 &&
-      array[childIndex + 1] < array[childIndex]
-    ) {
+    if (childIndex < length - 1 && array[childIndex + 1] < array[childIndex]) {
       childIndex++
     }
     // 不存在右节点
@@ -122,7 +119,7 @@ function buildHeap(array) {
   // 从最后一个非叶子节点开始，依次下沉调整
   for (let i = parseInt(array.length / 2); i >= 0; i--) {
     console.log(array[i])
-    downAdjustBetter(array, i)
+    downAdjustBetter(array, i, array.length)
   }
 }
 

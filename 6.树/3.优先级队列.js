@@ -54,20 +54,20 @@ class priorityQueue {
       // 最后一个元素补到头结点
       this.queue[0] = this.queue.pop()
       // 对第一个元素做下浮调整
-      this.downAdjustBetter(0)
+      this.downAdjustBetter(0, this.queue.length)
     }
     return val
   }
 
   // * 下浮优化版本
-  downAdjustBetter(parentIndex) {
+  downAdjustBetter(parentIndex, length) {
     let temp = this.queue[parentIndex]
     let childIndex = parentIndex * 2 + 1
 
-    while (childIndex < this.queue.length) {
+    while (childIndex < length) {
       // 如果有右孩子，且大于左孩子，则定位到右节点
       if (
-        childIndex < this.queue.length - 1 &&
+        childIndex < length - 1 &&
         this.queue[childIndex + 1] > this.queue[childIndex]
       ) {
         childIndex++
